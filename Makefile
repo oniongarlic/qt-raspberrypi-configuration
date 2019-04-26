@@ -6,7 +6,7 @@ all:
 
 install:
 	install -m 644 common/raspberrypi.conf $(DESTDIR)/qtbase/mkspecs/common/
-	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ $(DESTDIR)/qtbase/mkspecs/
+	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi-vc4-g++ $(DESTDIR)/qtbase/mkspecs/
 
 diff: diff-common diff-linux-rpi-g++ diff-linux-rpi2-g++ diff-linux-rpi3-g++
 
