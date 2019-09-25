@@ -2,6 +2,7 @@ Qt mkspecs configuration files for building Qt on a Raspberry Pi.
 
 * Common GL library configuration is in common/raspberrypi.conf
 * Model specific CFLAGS are set in linux-rpi2-g++, linux-rpi3-g++ and linux-rpi-g++
+* Configuration helpers for armv6, armv7 and armv8 configurations
 
 Select suitable configuration with -platform parameter to Qt configure.
 
