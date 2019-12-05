@@ -1,11 +1,13 @@
+PREFIX=/opt/Qt5.12
 DESTDIR=../qt-everywhere-src-5.12.6
+MKSPECS=qtbase/mkspecs
 
 PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
 export PKG_CONFIG_LIBDIR
 
 QT_CONFIG_COMMON:=-v -optimized-tools \
+	-prefix $(PREFIX) \
 	-opengl es2 -eglfs \
-	-no-gtk \
 	-opensource -confirm-license -release \
 	-reduce-exports \
 	-force-pkg-config \
@@ -13,17 +15,17 @@ QT_CONFIG_COMMON:=-v -optimized-tools \
 	-skip qtwayland \
 	-skip qtwebengine \
 	-skip qtscript \
+	-no-pch \
+	-no-gtk \
+	-no-xcb \
 	-no-feature-geoservices_mapboxgl \
 	-qt-pcre \
-	-no-pch \
-	-no-xcb \
 	-ssl \
 	-evdev \
 	-system-freetype \
 	-fontconfig \
 	-glib \
 	-sctp \
-	-prefix /opt/Qt5.12 \
 	-recheck-all \
 	-qpa eglfs
 
@@ -44,8 +46,8 @@ all:
 install: mkspecs
 
 mkspecs:
-	install -m 644 common/raspberrypi.conf $(DESTDIR)/qtbase/mkspecs/common/
-	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi-vc4-g++ linux-rpi4-v3d-g++ $(DESTDIR)/qtbase/mkspecs/
+	install -m 644 common/raspberrypi.conf $(DESTDIR)/$(MKSPECS)/common
+	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi-vc4-g++ linux-rpi4-v3d-g++ $(DESTDIR)/$(MKSPECS)/
 
 diff: diff-common diff-linux-rpi-g++ diff-linux-rpi2-g++ diff-linux-rpi3-g++ diff-linux-rpi4-v3d-g++
 
