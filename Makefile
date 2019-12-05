@@ -1,4 +1,4 @@
-DESTDIR=../qt-everywhere-src-5.12.5
+DESTDIR=../qt-everywhere-src-5.12.6
 
 PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
 export PKG_CONFIG_LIBDIR
@@ -35,6 +35,8 @@ QT_CONFIG_ARMV8:=-platform linux-rpi3-g++ $(QT_CONFIG_COMMON)
 
 QT_CONFIG_ARMV7_VC4:=-platform linux-rpi-vc4-g++ $(QT_CONFIG_COMMON)
 
+QT_CONFIG_ARMV8_VC4:=-platform linux-rpi4-v3d-g++ $(QT_CONFIG_COMMON)
+
 all:
 	@echo "Run: make install DESTDIR=qt-source-root"
 	@echo "DESTDIR defaults to: [$(DESTDIR)]"
@@ -43,9 +45,9 @@ install: mkspecs
 
 mkspecs:
 	install -m 644 common/raspberrypi.conf $(DESTDIR)/qtbase/mkspecs/common/
-	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi-vc4-g++ $(DESTDIR)/qtbase/mkspecs/
+	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi-vc4-g++ linux-rpi4-v3d-g++ $(DESTDIR)/qtbase/mkspecs/
 
-diff: diff-common diff-linux-rpi-g++ diff-linux-rpi2-g++ diff-linux-rpi3-g++
+diff: diff-common diff-linux-rpi-g++ diff-linux-rpi2-g++ diff-linux-rpi3-g++ diff-linux-rpi4-v3d-g++
 
 diff-common:
 	diff -u common/raspberrypi.conf $(DESTDIR)/qtbase/mkspecs/common/raspberrypi.conf
@@ -61,7 +63,7 @@ configure-rpi2: configure-armv7
 
 configure-rpi3: configure-armv8
 
-configure-rpi4: configure-armv8
+configure-rpi4: configure-armv8-vc4
 
 configure-armv6: mkspecs
 	mkdir -p ../build-qt-armv6 && cd ../build-qt-armv6 && $(DESTDIR)/configure $(QT_CONFIG_ARMV6)
@@ -74,5 +76,8 @@ configure-armv7-vc4: mkspecs
 
 configure-armv8: mkspecs
 	mkdir -p ../build-qt-armv8 && cd ../build-qt-armv8 && $(DESTDIR)/configure $(QT_CONFIG_ARMV8)
+
+configure-armv8-vc4: mkspecs
+	mkdir -p ../build-qt-armv8-vc4 && cd ../build-qt-armv8-vc4 && $(DESTDIR)/configure $(QT_CONFIG_ARMV8_VC4)
 
 
