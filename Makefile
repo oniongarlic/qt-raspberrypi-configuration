@@ -2,6 +2,13 @@ PREFIX=/opt/Qt5.12
 DESTDIR=../qt-everywhere-src-5.12.6
 MKSPECS=qtbase/mkspecs
 
+XCB=0
+GTK=0
+QTWAYLAND=0
+QTWEBENGINE=0
+QTSCRIPT=0
+MAPBOXGL=0
+
 PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
 export PKG_CONFIG_LIBDIR
 
@@ -28,6 +35,24 @@ QT_CONFIG_COMMON:=-v -optimized-tools \
 	-sctp \
 	-recheck-all \
 	-qpa eglfs
+
+ifeq ($(XCB), 1)
+QT_CONFIG_COMMON+=-xcb
+else
+QT_CONFIG_COMMON+=-no-xcb
+endif
+
+ifeq ($(GTK), 1)
+QT_CONFIG_COMMON+=-gtk
+else
+QT_CONFIG_COMMON+=-no-gtk
+endif
+
+ifeq ($(QTWAYLAND), 1)
+# QT_CONFIG_COMMON+=
+else
+QT_CONFIG_COMMON+=-skip qtwayland
+endif
 
 QT_CONFIG_ARMV6:=-platform linux-rpi-g++ $(QT_CONFIG_COMMON)
 
