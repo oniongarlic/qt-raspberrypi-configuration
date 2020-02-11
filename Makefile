@@ -1,4 +1,4 @@
-DESTDIR=../qt-everywhere-src-5.12.6
+DESTDIR=../qt-everywhere-src-5.12.7
 
 PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
 export PKG_CONFIG_LIBDIR
