@@ -1,5 +1,5 @@
 PREFIX=/opt/Qt5.12
-DESTDIR=../qt-everywhere-src-5.12.6
+DESTDIR=../qt-everywhere-src-5.12.7
 MKSPECS=qtbase/mkspecs
 
 XCB=0
