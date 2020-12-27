@@ -1,5 +1,5 @@
 PREFIX=/opt/Qt5.12
-DESTDIR=../qt-everywhere-src-5.12.7
+DESTDIR=../qt-everywhere-src-5.12.10
 MKSPECS=qtbase/mkspecs
 
 XCB=0
@@ -108,3 +108,17 @@ configure-armv8-vc4: mkspecs
 	mkdir -p ../build-qt-armv8-vc4 && cd ../build-qt-armv8-vc4 && $(DESTDIR)/configure $(QT_CONFIG_ARMV8_VC4)
 
 
+install-base-depends:
+	apt install build-essential libfontconfig1-dev libdbus-1-dev libfreetype6-dev libicu-dev libinput-dev libxkbcommon-dev libsqlite3-dev libssl-dev libpng-dev libjpeg-dev libglib2.0-dev libraspberrypi-dev -y
+
+install-alsa-depends:
+	apt install libasound2-dev -y
+
+install-x11-depends:
+	apt install libx11-dev libxcb1-dev libxkbcommon-x11-dev libx11-xcb-dev libxext-dev -y
+
+install-wayland-depends:
+	apt install libwayland-dev -y
+
+install-gstreamer-depends:
+	apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad libgstreamer-plugins-bad1.0-dev gstreamer1.0-pulseaudio gstreamer1.0-tools gstreamer1.0-alsa 

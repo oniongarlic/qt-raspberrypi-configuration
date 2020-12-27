@@ -1,5 +1,5 @@
 PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig \
-../qt-everywhere-src-5.12.7/configure \
+../qt-everywhere-src-5.12.10/configure \
 -platform linux-rpi-g++ \
 -v -optimized-tools \
 -opengl es2 -eglfs \
