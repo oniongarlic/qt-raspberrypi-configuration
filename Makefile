@@ -1,5 +1,6 @@
-PREFIX=/opt/Qt5.12
-DESTDIR=../qt-everywhere-src-5.12.10
+QTVERSION=5.12.10
+PREFIX=/opt/Qt/$(QTVERSION)
+DESTDIR=../qt-everywhere-src-$(QTVERSION)
 MKSPECS=qtbase/mkspecs
 
 XCB=0
@@ -60,7 +61,7 @@ QT_CONFIG_ARMV7:=-platform linux-rpi2-g++ $(QT_CONFIG_COMMON)
 
 QT_CONFIG_ARMV8:=-platform linux-rpi3-g++ $(QT_CONFIG_COMMON)
 
-QT_CONFIG_ARMV7_VC4:=-platform linux-rpi-vc4-g++ $(QT_CONFIG_COMMON)
+QT_CONFIG_ARMV7_VC4:=-platform linux-rpi2-vc4-g++ $(QT_CONFIG_COMMON)
 
 QT_CONFIG_ARMV8_VC4:=-platform linux-rpi4-v3d-g++ $(QT_CONFIG_COMMON)
 
@@ -72,7 +73,7 @@ install: mkspecs
 
 mkspecs:
 	install -m 644 common/raspberrypi.conf $(DESTDIR)/$(MKSPECS)/common
-	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi-vc4-g++ linux-rpi4-v3d-g++ $(DESTDIR)/$(MKSPECS)/
+	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi2-vc4-g++ linux-rpi4-v3d-g++ $(DESTDIR)/$(MKSPECS)/
 
 diff: diff-common diff-linux-rpi-g++ diff-linux-rpi2-g++ diff-linux-rpi3-g++ diff-linux-rpi4-v3d-g++
 
@@ -88,9 +89,13 @@ configure-rpi1: configure-armv6
 
 configure-rpi2: configure-armv7
 
+configure-rpi2-vc4: configure-armv7-vc4
+
 configure-rpi3: configure-armv8
 
 configure-rpi4: configure-armv8-vc4
+
+configure-rpi4-vc4: configure-armv8-vc4
 
 configure-armv6: mkspecs
 	mkdir -p ../build-qt-armv6 && cd ../build-qt-armv6 && $(DESTDIR)/configure $(QT_CONFIG_ARMV6)
