@@ -20,12 +20,8 @@ QT_CONFIG_COMMON:=-v -optimized-tools \
 	-reduce-exports \
 	-force-pkg-config \
 	-nomake examples -no-compile-examples \
-	-skip qtwayland \
-	-skip qtwebengine \
 	-skip qtscript \
 	-no-pch \
-	-no-gtk \
-	-no-xcb \
 	-no-feature-geoservices_mapboxgl \
 	-qt-pcre \
 	-ssl \
@@ -49,10 +45,12 @@ else
 QT_CONFIG_COMMON+=-no-gtk
 endif
 
-ifeq ($(QTWAYLAND), 1)
-# QT_CONFIG_COMMON+=
-else
+ifneq ($(QTWAYLAND), 1)
 QT_CONFIG_COMMON+=-skip qtwayland
+endif
+
+ifneq ($(QTWEBENGINE), 1)
+QT_CONFIG_COMMON+=-skip qtwebengine
 endif
 
 QT_CONFIG_ARMV6:=-platform linux-rpi-g++ $(QT_CONFIG_COMMON)
