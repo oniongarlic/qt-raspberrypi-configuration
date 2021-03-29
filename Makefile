@@ -110,6 +110,14 @@ configure-armv8: mkspecs
 configure-armv8-vc4: mkspecs
 	mkdir -p ../build-qt-armv8-vc4 && cd ../build-qt-armv8-vc4 && $(DESTDIR)/configure $(QT_CONFIG_ARMV8_VC4)
 
+build-armv6: configure-armv6
+	make -C ../build-qt-armv6 -j4
+
+build-armv7: configure-armv7
+	make -C ../build-qt-armv7 -j4
+
+build-armv8: configure-armv8
+	make -C ../build-qt-armv8 -j4
 
 install-base-depends:
 	apt install build-essential libfontconfig1-dev libdbus-1-dev libfreetype6-dev libicu-dev libinput-dev libxkbcommon-dev libsqlite3-dev libssl-dev libpng-dev libjpeg-dev libglib2.0-dev libraspberrypi-dev -y
