@@ -63,6 +63,8 @@ QT_CONFIG_ARMV7_VC4:=-platform linux-rpi2-vc4-g++ $(QT_CONFIG_COMMON)
 
 QT_CONFIG_ARMV8_VC4:=-platform linux-rpi4-v3d-g++ $(QT_CONFIG_COMMON)
 
+QT_CONFIG_ARMV8_64:=-platform linux-rpi64-vc4-g++ $(QT_CONFIG_COMMON)
+
 all:
 	@echo "Run: make install DESTDIR=qt-source-root"
 	@echo "DESTDIR defaults to: [$(DESTDIR)]"
@@ -71,7 +73,7 @@ install: mkspecs
 
 mkspecs:
 	install -m 644 common/raspberrypi.conf $(DESTDIR)/$(MKSPECS)/common
-	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi2-vc4-g++ linux-rpi4-v3d-g++ $(DESTDIR)/$(MKSPECS)/
+	cp -a linux-rpi2-g++ linux-rpi3-g++ linux-rpi-g++ linux-rpi2-vc4-g++ linux-rpi4-v3d-g++ linux-rpi64-vc4-g++ $(DESTDIR)/$(MKSPECS)/
 
 diff: diff-common diff-linux-rpi-g++ diff-linux-rpi2-g++ diff-linux-rpi3-g++ diff-linux-rpi4-v3d-g++
 
@@ -95,6 +97,8 @@ configure-rpi4: configure-armv8-vc4
 
 configure-rpi4-vc4: configure-armv8-vc4
 
+configure-rpi64: configure-armv8-64
+
 configure-armv6: mkspecs
 	mkdir -p ../build-qt-armv6 && cd ../build-qt-armv6 && $(DESTDIR)/configure $(QT_CONFIG_ARMV6)
 
@@ -110,6 +114,9 @@ configure-armv8: mkspecs
 configure-armv8-vc4: mkspecs
 	mkdir -p ../build-qt-armv8-vc4 && cd ../build-qt-armv8-vc4 && $(DESTDIR)/configure $(QT_CONFIG_ARMV8_VC4)
 
+configure-armv8-64: mkspecs
+	mkdir -p ../build-qt-armv8-64 && cd ../build-qt-armv8-64 && $(DESTDIR)/configure $(QT_CONFIG_ARMV8_64)
+
 build-armv6: configure-armv6
 	make -C ../build-qt-armv6 -j4
 
@@ -118,6 +125,12 @@ build-armv7: configure-armv7
 
 build-armv8: configure-armv8
 	make -C ../build-qt-armv8 -j4
+
+build-armv8-vc4: configure-armv8-vc4
+	make -C ../build-qt-armv8-vc4 -j4
+
+build-armv8-64: configure-armv8-64
+	make -C ../build-qt-armv8-64 -j4
 
 install-base-depends:
 	apt install build-essential libfontconfig1-dev libdbus-1-dev libfreetype6-dev libicu-dev libinput-dev libxkbcommon-dev libsqlite3-dev libssl-dev libpng-dev libjpeg-dev libglib2.0-dev libraspberrypi-dev -y
