@@ -9,11 +9,12 @@ QTWAYLAND=0
 QTWEBENGINE=0
 QTSCRIPT=0
 MAPBOXGL=0
+SCTP=0
 
 PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
 export PKG_CONFIG_LIBDIR
 
-QT_CONFIG_COMMON:=-v -optimized-tools \
+QT_CONFIG_COMMON:=-v \
 	-prefix $(PREFIX) \
 	-opengl es2 -eglfs \
 	-opensource -confirm-license -release \
@@ -29,14 +30,17 @@ QT_CONFIG_COMMON:=-v -optimized-tools \
 	-system-freetype \
 	-fontconfig \
 	-glib \
-	-sctp \
-	-recheck-all \
+	-recheck \
 	-qpa eglfs
 
 ifeq ($(XCB), 1)
-QT_CONFIG_COMMON+=-xcb
+QT_CONFIG_COMMON+=-xcb -xcb-xlib
 else
 QT_CONFIG_COMMON+=-no-xcb
+endif
+
+ifeq ($(SCTP), 1)
+QT_CONFIG_COMMON+=-sctp
 endif
 
 ifeq ($(GTK), 1)
@@ -51,6 +55,10 @@ endif
 
 ifneq ($(QTWEBENGINE), 1)
 QT_CONFIG_COMMON+=-skip qtwebengine
+endif
+
+ifneq ($(QTSCRIPT), 1)
+QT_CONFIG_COMMON+=-skip qtscript
 endif
 
 QT_CONFIG_ARMV6:=-platform linux-rpi-g++ $(QT_CONFIG_COMMON)
@@ -135,17 +143,28 @@ build-armv8-vc4: configure-armv8-vc4
 build-armv8-64: configure-armv8-64
 	make -C ../build-qt-armv8-64 -j4
 
+install-all-depends: install-base-depends install-alsa-depends install-x11-depends install-wayland-depends install-vc4-depends install-pulseaudio-depends install-gstreamer-depends
+
 install-base-depends:
-	apt install build-essential libfontconfig1-dev libdbus-1-dev libfreetype6-dev libicu-dev libinput-dev libxkbcommon-dev libsqlite3-dev libssl-dev libpng-dev libjpeg-dev libglib2.0-dev libraspberrypi-dev -y
+	apt install build-essential libfontconfig1-dev libdbus-1-dev libfreetype6-dev libicu-dev libinput-dev libxkbcommon-dev libsqlite3-dev libssl-dev libpng-dev libwebp-dev libjpeg-dev libglib2.0-dev libraspberrypi-dev -y
 
 install-alsa-depends:
 	apt install libasound2-dev -y
 
 install-x11-depends:
-	apt install libx11-dev libxcb1-dev libxkbcommon-x11-dev libx11-xcb-dev libxext-dev -y
+	apt install libx11-dev libxcb1-dev libxext-dev libxi-dev libxcomposite-dev libxcursor-dev libxtst-dev libxrandr-dev libfontconfig1-dev libfreetype6-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev  libxcb-glx0-dev  libxcb-keysyms1-dev libxcb-image0-dev  libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev  libxcb-randr0-dev  libxcb-render-util0-dev  libxcb-util0-dev  libxcb-xinerama0-dev  libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev -y
 
 install-wayland-depends:
 	apt install libwayland-dev -y
+
+install-vc4-depends:
+	apt install libgles2-mesa-dev libgbm-dev -y
+
+install-db-depends:
+	apt install libpq-dev libmariadbclient-dev -y
+
+install-pulseaudio-depends:
+	apt install pulseaudio libpulse-dev -y
 
 install-gstreamer-depends:
 	apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad libgstreamer-plugins-bad1.0-dev gstreamer1.0-pulseaudio gstreamer1.0-tools gstreamer1.0-alsa 
