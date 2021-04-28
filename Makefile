@@ -10,7 +10,7 @@ QTWEBENGINE=0
 QTSCRIPT=0
 MAPBOXGL=0
 
-PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
+PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
 export PKG_CONFIG_LIBDIR
 
 QT_CONFIG_COMMON:=-v -optimized-tools \
@@ -19,7 +19,7 @@ QT_CONFIG_COMMON:=-v -optimized-tools \
 	-opensource -confirm-license -release \
 	-reduce-exports \
 	-force-pkg-config \
-	-nomake examples -no-compile-examples \
+	-nomake examples -no-compile-examples -nomake tests \
 	-skip qtscript \
 	-no-pch \
 	-no-feature-geoservices_mapboxgl \
@@ -59,11 +59,11 @@ QT_CONFIG_ARMV7:=-platform linux-rpi2-g++ $(QT_CONFIG_COMMON)
 
 QT_CONFIG_ARMV8:=-platform linux-rpi3-g++ $(QT_CONFIG_COMMON)
 
-QT_CONFIG_ARMV7_VC4:=-platform linux-rpi2-vc4-g++ $(QT_CONFIG_COMMON)
+QT_CONFIG_ARMV7_VC4:=-platform linux-rpi2-vc4-g++ $(QT_CONFIG_COMMON) -feature kms
 
-QT_CONFIG_ARMV8_VC4:=-platform linux-rpi4-v3d-g++ $(QT_CONFIG_COMMON)
+QT_CONFIG_ARMV8_VC4:=-platform linux-rpi4-v3d-g++ $(QT_CONFIG_COMMON) -feature kms
 
-QT_CONFIG_ARMV8_64:=-platform linux-rpi64-vc4-g++ $(QT_CONFIG_COMMON)
+QT_CONFIG_ARMV8_64:=-platform linux-rpi64-vc4-g++ $(QT_CONFIG_COMMON) -feature-kms
 
 all:
 	@echo "Run: make install DESTDIR=qt-source-root"
@@ -122,6 +122,9 @@ build-armv6: configure-armv6
 
 build-armv7: configure-armv7
 	make -C ../build-qt-armv7 -j4
+
+build-armv7-vc4: configure-armv7-vc4
+	make -C ../build-qt-armv7-vc4 -j4
 
 build-armv8: configure-armv8
 	make -C ../build-qt-armv8 -j4
