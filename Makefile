@@ -1,4 +1,4 @@
-QTVERSION=5.12.10
+QTVERSION=5.15.2
 PREFIX=/opt/Qt/$(QTVERSION)
 DESTDIR=../qt-everywhere-src-$(QTVERSION)
 MKSPECS=qtbase/mkspecs
@@ -122,6 +122,9 @@ build-armv6: configure-armv6
 
 build-armv7: configure-armv7
 	make -C ../build-qt-armv7 -j4
+
+build-armv7-vc4: configure-armv7-vc4
+	make -C ../build-qt-armv7-vc4 -j4
 
 build-armv8: configure-armv8
 	make -C ../build-qt-armv8 -j4
