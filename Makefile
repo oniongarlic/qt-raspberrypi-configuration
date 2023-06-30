@@ -1,4 +1,4 @@
-QTVERSION=5.15.9
+QTVERSION=5.15.10
 PREFIX=/opt/Qt/$(QTVERSION)
 DESTDIR=../qt-everywhere-src-$(QTVERSION)
 MKSPECS=qtbase/mkspecs
